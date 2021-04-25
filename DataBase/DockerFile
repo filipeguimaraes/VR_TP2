@@ -1,0 +1,17 @@
+FROM mysql:latest
+
+#Copia do script de iniciação da base de dados
+COPY ./files/ /docker-entrypoint-initdb.d/
+
+
+#Definição das variaveis de ambiente
+ENV MYSQL_ROOT_PASSWORD = superstrongpassword2
+
+ENV MYSQL_DATABASE = Auth
+
+ENV MYSQL_USER = verylongusername
+ENV MYSQL_PASSWORD = superstrongpassword
+
+
+RUN ["sed", "-i", "s/exec \"$@\"/echo \"not running $@\"/", "/usr/local/bin/docker-entrypoint.sh"]
+
