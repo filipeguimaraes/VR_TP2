@@ -1,0 +1,38 @@
+version: '3.3'
+services:
+    db:
+        image: mysql:latest
+        restart: always
+        environment:
+            MYSQL_DATABASE: 'Auth'
+            MYSQL_USER: 'user'
+            MYSQL_PASSWORD: 'password'
+            MYSQL_ROOT_PASSWORD: 'password'
+        ports:
+            - '3306:3306'
+        expose: 
+            - '3306'
+        networks: 
+            - db_auth
+        volumes:
+            #Colocar o script de inicializacao dentro da pasta para o efeito
+            - ./DataBase/init.sql:/docker-entrypoint-initdb.d/1.sql
+            #Criar o volume para pressistencia
+            - my-db:/var/lib/mysql 
+        cap_add:
+            - SYS_NICE  # Correção do problema: "mbind: Operation not permitted"
+    auth:
+        depends_on:
+            - db
+        build: ./Authentication
+        ports:
+            - '3000:3000'
+        expose: 
+            - '3000'
+        networks: 
+            - db_auth
+volumes:
+    my-db:
+        driver: local
+networks: 
+    db_auth:
