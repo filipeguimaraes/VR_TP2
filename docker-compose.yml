@@ -33,7 +33,7 @@ services:
     http:
         depends_on:
             - auth
-        build: ./Authentication
+        build: ./HTTP
         ports:
             - '4000:4000'
         expose: 
