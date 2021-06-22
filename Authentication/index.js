@@ -18,15 +18,14 @@ app.use("/public", express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'pug')
 app.set('views', './views')
-//app.set('view options', { layout: false });
 
 
 app.use('/', router);
 
 app.all('*', function( req, res, next) {
-    res.redirect('/error');
-  });
+  res.redirect("/error");
+});
 
 var server = http.createServer(app);
-server.listen(3001);
-console.log("Servidor escutando na porta 3000...")
+server.listen(3000,'0.0.0.0');
+console.log("server listening on 0.0.0.0 port 3000");

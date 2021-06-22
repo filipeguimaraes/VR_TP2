@@ -19,4 +19,15 @@ async function selectUser(username) {
     return rows[0];
 }
 
+// async function selectRefreshToken(username) {
+//     const conn = await connect();
+//     const [rows] = await conn.query('SELECT refreshToken FROM users where username="' + username + '"');
+//     return rows[0];
+// }
+
+// async function writeRefreshToken(username, token) {
+//     const conn = await connect();
+//     const [rows] = await conn.query('UPDATE users SET refreshToken ="'+token+'"WHERE username = "'+username+'"');
+// }
+
 module.exports = {selectUser};

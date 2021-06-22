@@ -5,8 +5,8 @@ CREATE TABLE users (
   permission varchar(100) NOT NULL,
   username varchar(100) NOT NULL,
   pass varchar(100) NOT NULL,
-  token VARCHAR (256) ,
-  CONSTRAINT idk PRIMARY KEY (id),
+  refreshToken varchar(256),
+  CONSTRAINT idk PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO users (permission, username, pass) VALUES ('admin', 'admin', 'admin');

@@ -21,16 +21,16 @@ services:
             - my-db:/var/lib/mysql 
         cap_add:
             - SYS_NICE  # Correção do problema: "mbind: Operation not permitted"
-    auth:
-        depends_on:
-            - db
-        build: ./Authentication
-        ports:
-            - '3000:3000'
-        expose: 
-            - '3000'
-        networks: 
-            - db_auth
+    #auth:
+    #    depends_on:
+    #        - db
+    #    build: ./Authentication
+    #    ports:
+    #        - '3000:3000'
+    #    expose: 
+    #        - '3000'
+    #    networks: 
+    #        - db_auth
 volumes:
     my-db:
         driver: local
