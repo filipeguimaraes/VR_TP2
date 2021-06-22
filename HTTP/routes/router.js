@@ -3,11 +3,6 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-//root
-router.get('/', (req, res) => {
-    res.redirect('http://0.0.0.0:3000');
-});
-
 //rota user
 router.get('/user', verifyUSER, (req, res) => {
     var tasks = JSON.parse(fs.readFileSync('./data/tasks.json', 'utf8'));
