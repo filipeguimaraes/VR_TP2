@@ -64,8 +64,8 @@ router.get('/logout', (req, res, next) => {
     res.redirect('http://0.0.0.0:3000');
 });
 
-router.all('*', function (req, res, next) {
-    res.redirect('/');
+router.all('*',verifyUSER, function (req, res, next) {
+    res.redirect('/user');
 });
 
 
@@ -77,7 +77,7 @@ function verifyUSER(req, res, next) {
     jwt.verify(token, publicKey, { algorithm: ["RS256"] }, function (err, decoded) {
         if (err) res.redirect('http://0.0.0.0:3000');
         if (decoded === undefined) res.redirect('http://0.0.0.0:3000');
-        if (decoded.role !== 'user') res.redirect('http://0.0.0.0:3000/' + decoded.role);
+        if (decoded.role !== 'user') res.redirect('/' + decoded.role);
         next();
     });
 }
@@ -90,7 +90,7 @@ function verifyMod(req, res, next) {
     jwt.verify(token, publicKey, { algorithm: ["RS256"] }, function (err, decoded) {
         if (err) res.redirect('http://0.0.0.0:3000');
         if (decoded === undefined) res.redirect('http://0.0.0.0:3000');
-        if (decoded.role !== 'moderator') res.redirect('http://0.0.0.0:3000/' + decoded.role);
+        if (decoded.role !== 'moderator') res.redirect('/' + decoded.role);
         next();
     });
 }
@@ -103,7 +103,7 @@ function verifyAdmin(req, res, next) {
     jwt.verify(token, publicKey, { algorithm: ["RS256"] }, function (err, decoded) {
         if (err) res.redirect('http://0.0.0.0:3000');
         if (decoded === undefined) res.redirect('http://0.0.0.0:3000');
-        if (decoded.role !== 'admin') res.redirect('http://0.0.0.0:3000/' + decoded.role);
+        if (decoded.role !== 'admin') res.redirect('/' + decoded.role);
         next();
     });
 }

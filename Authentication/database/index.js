@@ -1,3 +1,5 @@
+
+
 async function connect() {
     const config = require('../config/database');
     const mysql = require("mysql2/promise");
@@ -15,9 +17,27 @@ async function connect() {
 async function selectUser(username) {
     const conn = await connect();
     const [rows] = await conn.query('SELECT * FROM users where username="' + username + '"');
-    if (!rows[0]) return({id: '-1'});
+    if (!rows[0]) return ({ id: '-1' });
     return rows[0];
 }
+
+async function insertUser(username, password) {
+    const config = require('../config/database');
+    const mysql = require("mysql2/promise");
+    const pool = await mysql.createPool({
+        host: config.host,
+        user: config.user,
+        password: config.password,
+        database: config.database
+    });
+    try {
+        await pool.execute('INSERT INTO users (permission, username, pass) VALUES ("user", "' + username + '", "' + password + '")');
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
 
 // async function selectRefreshToken(username) {
 //     const conn = await connect();
@@ -30,4 +50,4 @@ async function selectUser(username) {
 //     const [rows] = await conn.query('UPDATE users SET refreshToken ="'+token+'"WHERE username = "'+username+'"');
 // }
 
-module.exports = {selectUser};
+module.exports = { selectUser, insertUser };

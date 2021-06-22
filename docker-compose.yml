@@ -10,8 +10,6 @@ services:
             MYSQL_ROOT_PASSWORD: 'password'
         ports:
             - '3306:3306'
-        expose: 
-            - '3306'
         networks: 
             - db_auth
         volumes:
@@ -21,18 +19,30 @@ services:
             - my-db:/var/lib/mysql 
         cap_add:
             - SYS_NICE  # Correção do problema: "mbind: Operation not permitted"
-    #auth:
-    #    depends_on:
-    #        - db
-    #    build: ./Authentication
-    #    ports:
-    #        - '3000:3000'
-    #    expose: 
-    #        - '3000'
-    #    networks: 
-    #        - db_auth
+    auth:
+        depends_on:
+            - db
+        build: ./Authentication
+        ports:
+            - '3000:3000'
+        expose: 
+            - '3000'
+        networks: 
+            - db_auth
+            - auth_http
+    http:
+        depends_on:
+            - auth
+        build: ./Authentication
+        ports:
+            - '4000:4000'
+        expose: 
+            - '4000'
+        networks: 
+            - auth_http
 volumes:
     my-db:
         driver: local
 networks: 
     db_auth:
+    auth_http:

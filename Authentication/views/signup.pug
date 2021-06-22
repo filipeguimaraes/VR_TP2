@@ -1,20 +1,17 @@
 doctype html
 html(lang="en")
   head
-    title Login
+    title Signup
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     style
       include ./styles/style.css
   body
     #main
-      form(method='POST' action='/login' enctype="application/json")
+      form(method='POST' action='/signup' enctype="application/json")
         div.username
           input( name="username" type="text" placeholder="username" required)
         div.password
           input( name="password" type="password" placeholder="password" required)
-        button(id="submit" type="submit") Login
-        p
-          | not a member
-          a(href="/signup") Sing Up now 
+        button(id="submit" type="submit") Signup 
         

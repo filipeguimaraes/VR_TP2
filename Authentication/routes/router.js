@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var createJWT = require('../jwt/createJWT');
+const {selectUser, insertUser} = require('../database/index');
 
 //rota inicial
 router.get('/', (req, res) => {
@@ -11,12 +12,16 @@ router.get('/login', (req, res) => {
     res.render('login');
 })
 //rota de login
-router.get('/signup', (req, res) => {
-    res.render('login');
-})
-//rota de login
 router.get('/login_', (req, res) => {
     res.render('loginFail');
+})
+//rota de login
+router.get('/signup', (req, res) => {
+    res.render('signup');
+})
+//rota de login
+router.get('/signup_', (req, res) => {
+    res.render('signupFail');
 })
 //rota de login
 router.get('/error', (req, res) => {
@@ -25,15 +30,14 @@ router.get('/error', (req, res) => {
 
 //dados de login
 router.post('/login', (req, res) => {
-    console.log(req.body);
-    createJWT(req.body.username,req.body.password).then((jwt) => {
-        if(jwt.auth === true){
-            res.cookie('token',jwt.token);
-            if(jwt.role === 'user'){
+    createJWT(req.body.username, req.body.password).then((jwt) => {
+        if (jwt.auth === true) {
+            res.cookie('token', jwt.token);
+            if (jwt.role === 'user') {
                 res.redirect('http://0.0.0.0:4000/user');
-            } else if(jwt.role === 'moderator'){
+            } else if (jwt.role === 'moderator') {
                 res.redirect('http://0.0.0.0:4000/moderator');
-            } else if(jwt.role === 'admin'){
+            } else if (jwt.role === 'admin') {
                 res.redirect('http://0.0.0.0:4000/admin');
             }
             //res.redirect('/');
@@ -41,5 +45,18 @@ router.post('/login', (req, res) => {
     });
 })
 
+//dados de signup
+router.post('/signup', (req, res) => {
+    console.log(req.body);
+    selectUser(req.body.username).then((dbuser) => {
+        if (dbuser.id === '-1') {
+            insertUser(req.body.username, req.body.password).then((result) => {
+                if (result === true) {
+                    res.redirect('/login');
+                } else res.render('signupFail', {message: "Error creating user!"});
+            });
+        } else res.render('signupFail', {message: "Username already exists!"});
+    });
+})
 
 module.exports = router;

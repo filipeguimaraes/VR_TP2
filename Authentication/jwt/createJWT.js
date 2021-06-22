@@ -4,7 +4,6 @@ const selectUser = require('../database/index').selectUser;
 
 module.exports = async function createJWT(username, password) {
     return selectUser(username).then((dbuser) => {
-        console.log(dbuser);
         if (dbuser.id === '-1') {
             return { auth: false, token: null };
         } else if (password === dbuser.pass) {
