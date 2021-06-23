@@ -33,14 +33,8 @@ router.post('/login', (req, res) => {
     createJWT(req.body.username, req.body.password).then((jwt) => {
         if (jwt.auth === true) {
             res.cookie('token', jwt.token);
-            if (jwt.role === 'user') {
-                res.redirect('http://0.0.0.0:4000/user');
-            } else if (jwt.role === 'moderator') {
-                res.redirect('http://0.0.0.0:4000/moderator');
-            } else if (jwt.role === 'admin') {
-                res.redirect('http://0.0.0.0:4000/admin');
-            }
-            //res.redirect('/');
+            res.redirect('http://0.0.0.0:4000/');
+            
         } else res.redirect('/login_');
     });
 })

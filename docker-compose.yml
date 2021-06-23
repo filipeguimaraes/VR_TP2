@@ -1,7 +1,7 @@
 version: '3.3'
 services:
     db:
-        build: ./DataBase
+        image: filipeguimaraes99/vr_tp2_db:latest
         restart: always
         ports:
             - '3306:3306'
@@ -15,7 +15,7 @@ services:
     auth:
         depends_on:
             - db
-        build: ./Authentication
+        image: filipeguimaraes99/vr_tp2_auth:latest
         ports:
             - '3000:3000'
         expose: 
@@ -26,7 +26,7 @@ services:
     http:
         depends_on:
             - auth
-        build: ./HTTP
+        image: filipeguimaraes99/vr_tp2_http:latest
         ports:
             - '4000:4000'
         expose: 
