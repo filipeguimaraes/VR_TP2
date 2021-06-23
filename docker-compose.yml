@@ -1,20 +1,13 @@
 version: '3.3'
 services:
     db:
-        image: mysql:latest
+        build: ./DataBase
         restart: always
-        environment:
-            MYSQL_DATABASE: 'Auth'
-            MYSQL_USER: 'user'
-            MYSQL_PASSWORD: 'password'
-            MYSQL_ROOT_PASSWORD: 'password'
         ports:
             - '3306:3306'
         networks: 
             - db_auth
         volumes:
-            #Colocar o script de inicializacao dentro da pasta para o efeito
-            - ./DataBase/init.sql:/docker-entrypoint-initdb.d/1.sql
             #Criar o volume para pressistencia
             - my-db:/var/lib/mysql 
         cap_add:
