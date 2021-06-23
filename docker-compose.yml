@@ -38,10 +38,15 @@ services:
             - '4000:4000'
         expose: 
             - '4000'
+        volumes:
+            #Criar o volume para pressistencia
+            - my-data-http:/server/data 
         networks: 
             - auth_http
 volumes:
     my-db:
+        driver: local
+    my-data-http:
         driver: local
 networks: 
     db_auth:
